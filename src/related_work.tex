@@ -1,0 +1,84 @@
+%!TEX ROOT=../itat2022.tex
+\section{Related work}\label{sec:related_work}
+This section describes datasets and models related to the task of automated fact-checking of textual claims.
+More general overview of the state-of-the-art can be found in~\cite{zeng2021fcsurvey} or~\cite{murayama2021dataset}.
+
+Emergent~\cite{ferreira2016emergent} dataset is based on news; it contains 300 claims and 2k+ articles, however, it is limited to headlines.
+Due to the dataset size, only simple models classifying to three classes (\textit{for}, \textit{against}, and \textit{observing}) are presented.
+Described models are fed BoW vectors and feature-engineered attributes.
+
+Wang in~\cite{wang2017liar} presents another dataset of 12k+ claims, working with 5 classes (\textit{pants-fire}, \textit{false}, \textit{barely-true}, \textit{half-true}, \textit{mostly-true}, and \textit{true}).
+Each verdict includes a justification. 
+However, evidence sources are missing.
+The models presented in the paper are claim-only, i.e., they deal with surface-level linguistic cues only.
+The author further experiments with speaker-related meta-data.
+
+Fact Extraction and VERification (\FEVER)~\cite{fever2018} is a large dataset of 185k+ claims covering the overall fact-checking pipeline. 
+It was based on abstracts of 50k most visited pages of English \Wikipedia.
+Authors present complex annotation methodology that involves two stages: the \textit{claim generation} in which annotators firstly create a true \textit{initial claim} supported by a random \Wikipedia source article with context extended by the \textit{dictionary} constructed from pages linked from the source article.
+The \textit{initial claim} is further \textit{mutated} by rephrasing, negating and other operations.
+The task of the second \textit{claim labeling} stage is to provide the \textit{evidence} as well as give the final verdict: \texttt{SUPPORTS}, \texttt{REFUTES} or \texttt{NEI}, where the latter stands for the \textit{not enough information} label.
+Fact Extraction and VERification Over Unstructured and Structured information (\textsc{FEVEROUS})~\cite{aly2021feverous} adds 87k+ claims including evidence based on \Wikipedia table cells.
+The size of \FEVER data facilitates modern deep learning NLP methods.
+The \FEVER authors host annual workshops involving competitions, with results described in~\cite{fever2018b} and~\cite{thorne2019fever2}.
+
+\textsc{MultiFC}~\cite{augenstein2019multifc} is a 34k+ claim dataset sourcing its claims from 26 fact checking sites.
+The evidence documents are retrieved via Google Search API as the ten highest-ranking results.
+This approach significantly deviates from the \FEVER-like datasets as the ground-truth is not limited by a closed-world corpus, which limits the trustworthiness of the retrieved evidence.
+Also, similar data cannot be utilized to train the DR models.
+
+\textsc{WikiFactCheck-English}~\cite{sathe2020automated} is another recent \Wikipedia-based large dataset of 124k+ claims and further 34k+ ones including claims refuted by the same evidence.
+The claims are accompanied by \textit{context}.
+The evidence is based on \Wikipedia articles as well as on the linked documents. 
+
+Considering other than English fact-checking datasets, the situation is less favorable.
+Recently, Gupta et al.~\cite{gupta2021xfact} released a multilingual (25 languages) dataset of 31k+ claims annotated by seven veracity classes.
+Similarly to the \textsc{MultiFC}, evidence is retrieved via Google Search API.
+The experiments with the multilingual \BERT~\cite{devlin2019bert} model show that the gain from including the evidence is rather limited when compared to claim-only models.
+FakeCovid~\cite{shahi2020fakecovid} is a multilingual (40 languages) dataset of 5k+ news articles.
+The dataset focuses strictly on the COVID-19 topic.
+Also, it does not supply evidence in a raw form -- human fact-checker argumentation is provided instead. 
+Kazemi et al.~\cite{kazemi2021claim} released two multilingual (5 languages) datasets, these are, however, aimed at \textit{claim detection} (5k+ examples) and \textit{claim matching} (2k+ claim pairs).
+
+In the Czech locale, the most significant machine-learnable dataset is the \textsc{Demagog} dataset~\cite{priban-etal-2019-machine} based on the fact-checks of the Demagog\footnote{\url{https://demagog.cz/}} organisation.
+The dataset contains 9k+ claims in Czech (and 15k+ in Slovak and Polish) labeled with a veracity verdict and speaker-related metadata, such as name and political affiliation.
+The verdict justification is given in natural language, often providing links from social networks, government-operated webpages, etc.
+While the metadata is appropriate for statistical analyses, the justification does not come from a closed knowledge base that could be used in an automated scheme.
+
+The work most related to ours was presented by the authors of~\citep{binau2020danish,norregaard2021danfever}, who published a Danish version of \FEN called \FDAN.
+Unlike our \FCZ dataset, \FDAN was annotated by humans.
+Given the limited number of annotators, it includes significantly fewer claims than \FEN (6k+ as opposed to 185k+).
+% , which makes it less appealing for the state-of-the-art neural models.
+
+
+%\todo{The following paragraphs (commented out) should be moved to their corresponding sections.}
+
+\begin{comment}
+\textbf{DR datasets and methods:}
+\jd{Relation to QA and QA datasets. The connection: DRQA~\cite{chen2017drqa}~\cite{fever2018b} add MORE}
+
+\textbf{NLI datasets and methods:}
+We have examined the following NLI datasets in English, and their respective state-of-the-art classifiers, largerly based on transformer models resemblant to \BERT~\cite{devlin2019bert}.
+The original \FEVER paper refers to this task as to \textit{Recognizing Textual Entailment} (RTE)~\cite{fever2018}.
+As RTE is mostly understood as a binary classification problem (\texttt{entailed} and \texttt{no entailment} labels)~\cite{chatzikyriakidis2017overview}, we recognize the task as the \textit{Natural Language Inference} (NLI).
+NLI is stated as a three-way classifiction with \texttt{entailed}, \texttt{negation entailed} and \texttt{no entailment} labels which directly map to \texttt{SUPPORTS}, \texttt{REFUTES} and \texttt{NEI}.
+
+\textsc{SNLI}~\cite{bowman2015large} (corpus of approx. 570,000 human-written English sentence pairs manually labeled for balanced classification).
+\textsc{MultiNLI}~\cite{williams2018broad} (approx. 433,000 sentence pairs and covers various genres of spoken and written English)
+\textsc{ANLI}~\cite{nie2020adversarial} (approx. 170,000 sentence pairs in human-and-model-in-the-loop dataset, consisting of three rounds of increasing complexity and difficulty (\textsf{A1}, \textsf{A2}, \textsf{A3}).
+\FEVERNLI~\cite{nie2019combining} is a simple conversion of the \FEVER dataset from its original format to the $(query,context)$ pairs.
+    
+\textbf{Multilingual Language Models:}
+\MBERT (\textit{Multilingual \BERT}) is a variation of \BERT$_\textsf{BASE}$ model~\cite{devlin2019bert} (\jd{Is'n it LARGE model?, how many languages?} -- \hu{The one we used in my thesis was \url{https://huggingface.co/DeepPavlov/bert-base-multilingual-cased-sentence} -- BASE. 101 langs}).
+
+\XLM~\cite{conneau2020unsupervised} is the crosslingual version of \textsc{RoBERTa} (\jd{How many languages?}).
+
+\textbf{Slavonic Language Models:} 
+\SlavicBERT~\cite{arkhipov2019tuning} is similar to \MBERT, trained on joint Bulgarian, Czech, Polish and Russian corpora.
+
+\CZERT~\cite{sido2021czert} and \RobeCzech~\cite{straka2021robeczech} are recent Czech monolingual models based \BERT and \RoBERTa families.
+
+
+\todo{Move this to the "Model-based annotation cleaning" section}
+This paper~\cite{brod6ley1996identifying} describes our approach to cleaning dataset based on cross-validation. The differences are: we use a single classifier only (instead of ensemble of $m$ classifiers). Moreover, we use this approach to detect the mislabelled samples only. Instead of removing them, we fix the label.
+\end{comment}

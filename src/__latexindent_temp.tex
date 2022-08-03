@@ -1,0 +1,32 @@
+\section{Conclusion}\label{sec:conclusion}
+
+With this paper, we aimed to address the lack of a Czech dataset for automated fact-checking.
+We have explored two ways of acquiring such data.
+
+Firstly, we localize the \FEN dataset, using a document alignment between Czech and English \Wikipedia abstracts extracted from the \textit{interlingual links}.
+We obtain and publish the \FCZ dataset of 127k machine-translated claims with evidence enclosed within the Czech \Wikipedia dump.
+We then validate our alignment scheme and measure a 66\% precision using hand annotations over a 1\% sample of obtained data.
+Therefore, we recommend the data for models less sensitive to noise and utilize it to train experimental DR models and recall estimation.
+
+Secondly, we execute a series of human annotation runs with 163 students of journalism to acquire a novel dataset in Czech.
+As opposed to similar annotations that extracted the claims and evidence from \Wikipedia~\cite{fever2018,norregaard2021danfever,aly2021feverous}, we annotate our dataset on top of a CTK corpus extracted from a news agency archive to explore this different relevant language form. 
+We collect a raw dataset of 3,116 labeled claims, 57\% of which have at $\geq2$ independent cross-annotations.
+From these, we calculate Krippendorff's alpha to be 56.42\%.
+We proceed with manual and human-and-model-in-the-loop annotation cleaning to remove conflict and malformed annotations and arrive at a thoroughly cleaned \CTK dataset of 3,097 claims and their veracity annotations with evidence from the CTK corpus.
+We release its version for NLI called \CTKNLI to maintain corpus trade secrecy.
+
+Finally, we use our datasets to train baseline models for the full fact-checking pipeline composed of Document Retrieval and Natural Language Inference tasks.
+% At five retrieved paragraphs in a Score Evidence setting, where at least one gold set of evidence must be covered by the DR predictions, our best performing models scored 33.89\% overall accuracy on \FCZ and 20.14\% on \CTK.
+% In a No Score Evidence setting, where the gold evidence requirement is removed, we scored 55.40\% and 61.24\% on \FCZ and \CTK, respectively.
+% We claim the results to be testifying to the viability of the task in our setting and encouraging for further research on our data.
+
+\subsection{Future work}
+\begin{itemize}
+    \item The fact-checking pipeline is to also be augmented by the \textit{check-worthiness estimation}~\cite{nakov2021automated}, that is, a model that classifies which sentences of a given text in Czech are appropriate for the fact verification.
+    We are currently working on models that detect claims within the Czech Twitter, and a strong predictor for this task would also strengthen our annotation scheme from Section~\ref{sec:annotation} that currently relies on hand-picked check-worthy documents.
+    \item While the \SUP, \REF{} and \NEI{} classes  offer a finer classification w.r.t. evidence than binary \texttt{true}/\texttt{false}, it is a good convention of fact-checking services to use additional labels, s.a. \texttt{MISINTERPRETED}, that could be integrated into the common automated fact verification scheme if well formalised.
+    \item The enclosed annotation schemes for this task like that from~\cite{fever2018} or Section~\ref{sec:annotation} do not necessarily produce organic claims capturing the real-world complexity of fact-checking -- for example, just the \FEN \train set contains hundreds of claims of form \enquote{X is a person.}.
+    This does not have a trivial solution, but we suggest an integration of real-world sources of claims, s.a. Twitter, into the annotation scheme.
+    \item While the \FEVER localization scheme from Section~\ref{fcz-method} yielded a rather noisy dataset, its size and document precision encourage
+    deployment of a model-based cleaning scheme like that from~\cite{Jeatrakul} to further refine its results.
+\end{itemize}

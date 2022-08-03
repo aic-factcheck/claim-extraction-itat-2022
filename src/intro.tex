@@ -1,0 +1,139 @@
+%!TEX ROOT=../itat2022.tex
+\begin{comment}
+  \section*{General TODO}
+  \begin{itemize}
+      \item {
+        \jd{Do we have any data on how many articles were filtered during \Tzero?}
+        \\
+        \hu{This does not prevent slight inaccuracies, however, one could SELECT all the paragraphs in DB that were not used in any knowledge scope, group them by article, select max(candidate\_of) and calculate the number of NULL entries.}
+      }
+      % \item {
+      %   \jd{Maybe we should call our dataset \textsc{CsFEVER} instead of \textsc{FEVER CS} (or most likely correctly \textsc{CzFEVER}) in accordance with the \textsc{DanFEVER} paper~\cite{norregaard2021danfever}. We can also write \FEN instead of "original" \FEN, similarly to the \textsc{DanFEVER} paper. \red{I have done this: use \texttt{\textbackslash FCZ}, \texttt{\textbackslash FEN}, and \texttt{\textbackslash CTK} commands.}}
+      %   \\
+      %   \hu{I agree with CsFEVER -- CzFEVER deceptively sounds more correct, but it is not (CZ is country code, but what we want to use are the NLP-standard ISO 639-1 language codes: \url{https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes} -- similar to chinese="zh", china="cn")}
+      % }
+      \item \jd{"DANFEVER" paper says: "The claims focus on the same entity as the substring’s source document and may be supported by the text in the substring, but may also be refuted or unverifiable by the substring." -- compare to the \FEN paper -- I think that initially only supported claims are generated, only after then you get REFUTE and NEI by the mutations.}
+      \\ \hu{True that.}
+      \item \todo{Put sizes of both datasets to Abstract, Intro and Conclusion.}
+      \item \todo{Motivate the "paragraph granularity" in Intro, also (now covered in \FCZ section).} 
+  \end{itemize}
+\end{comment}
+
+
+\begin{comment}
+TOFINALIZE: 
+  2. Pragmatic (extra linguistic) knowledge and context is crucial. For
+    example, imagine an example: "Country X did not invade country Y", Z said.
+    Here the statement depends on the Z's position. Of course this is more
+    a philosophical remark and I do not see how you can prevent anyone of
+    misusing the approach, but maybe you could consider adding one or two
+    sentences if you also agree this should be commented upon?
+\end{comment}
+\section{Introduction}\label{sec:intro}
+
+In the current highly connected online society, the ever-growing information influx eases the spread of false or misleading news.
+The omnipresence of fake news motivated formation of fact-checking organizations such as AFP Fact Check,\footnote{\url{https://factcheck.afp.com/}} International Fact-Checking Network,\footnote{\url{https://www.poynter.org/ifcn/}} PolitiFact,\footnote{\url{https://www.politifact.com/}} Poynter,\footnote{\url{https://www.poynter.org/}} Snopes,\footnote{\url{https://www.snopes.com/}} and many others.
+At the same time, many tools for fake news detection and fact-checking are being developed: ClaimBuster~\cite{hassan2017claimbuster}, ClaimReview;\footnote{\url{https://www.claimreviewproject.com/}} or CrowdTangle\footnote{\url{https://www.crowdtangle.com/}} see~\cite{zeng2021fcsurvey} for more examples.
+Many of these are based on machine learning technologies aimed at image recognition, speech to text, or Natural Language Processing (NLP).
+This paper deals with the latter, focusing on automated fact-checking (hereinafter also referred to as \textit{fact verification}).
+
+Automated fact verification is a complex NLP task~\cite{thorne2018automated} in which the veracity of a textual \textit{claim} gets evaluated with respect to a ground truth corpus.
+The output of a fact-checking system gives a classification of the claim -- conventionally varying between \textit{supported}, \textit{refuted} and \textit{not enough information} available in corpus. 
+For the \textit{supported} and \textit{refuted} outcomes it further supplies the \textit{evidence}, i.e., a list of documents that explain the verdict.
+Fact-checking systems typically work in two stages~\cite{fever2018}. 
+In the first stage, based on the input \textit{claim}, the Document Retrieval (DR) module selects the \textit{evidence}.
+In the second stage, the Natural Language Inference module matches the \textit{evidence} with the \textit{claim} and provides the final verdict.    
+Table~\ref{tab:fc_example} shows an example of data used to train the fact-checking systems of this type.
+
+\begin{table}
+  \begin{center}
+  \begin{minipage}{0.83\textwidth}
+  \caption{Truncated example from \CTK \train set.}\label{tab:fc_example}
+  \begin{tabular}{p{\linewidth}}
+  \toprule
+  \textbf{Claim:} Spojené státy americké hraničí s Mexikem.\\ 
+  \textbf{EN Translation:} \textit{The United States of America share borders with Mexico.}\\ 
+  \midrule
+  \textbf{Verdict:} \SUP\\ 
+  \midrule
+  \textbf{Evidence 1:} \q{Mexiko a USA sdílejí 3000 kilometrů dlouhou hranici, kterou ročně překročí tisíce Mexičanů v naději na lepší životní podmínky (\dots)}\\ 
+   \textbf{EN:} \textit{Mexico and the U.S. share a 3,000-kilometre border, thousands of Mexicans cross each year in hopes of better living conditions (\dots)}\\\\
+  \textbf{Evidence 2:} \q{Mexiko také nelibě nese, že Spojené státy stále budují na vzájemné, několik tisíc kilometrů dlouhé hranici zeď, která má zabránit fyzickému ilegálnímu přechodu Mexičanů do USA (\dots)}\\ 
+   \textbf{EN:} \textit{Mexico is also uncomfortable with the fact that the United States is still building a wall on their mutual, several thousand-mile borders to prevent Mexicans from physically crossing illegally into the U.S. (\dots)}\\
+  \botrule
+  \end{tabular}
+  \end{minipage}
+  \end{center}
+\end{table}
+
+Current state-of-the-art methods applied to the domain of automated fact-checking are typically based on large-scale neural language models~\cite{fever2018b}, which are notoriously data-hungry. 
+While there is a reasonable number of quality datasets available for high-profile world languages~\cite{zeng2021fcsurvey}, the situation for the low-resource languages is significantly less favorable.
+Also, most available large-scale datasets are built on top of \Wikipedia~\cite{fever2018,aly2021feverous,schuster-etal-2021-vitaminc,sathe2020automated}. 
+While encyclopedic corpora are convenient for dataset annotation, these are hardly the only eligible sources of the ground truth. 
+
+We argue that corpora of verified news articles used as claim verification datasets are a relevant alternative to encyclopedic corpora.
+Advantages are clear: the amount and detail of information covered by news reports are typically higher.
+Furthermore, the news articles typically inform on recent events attracting public attention, which also inspire new fake or misleading claims spreading throughout the online space.
+
+On the other hand, news articles address a more varied range of issues and have a more complex structure from the NLP perspective.
+While encyclopedic texts are typically concise and focused on facts, the style of news articles can vary wildly between different documents or even within a single article.
+For example, it is common that a report-style article is intertwined with quotations and informative summaries.
+Also, claim validity might be obscured by complex temporal or personal relationships: a past quotation like \qit{Janet Reno will become a member of the Cabinet.} may or may not support the claim \qit{Janet Reno was the member of the Cabinet.}\footnote{\revision{And the veracity of such claim may be further nuanced by the affiliation and bias of the speaker.}}
+This depends on, firstly, which date we verify the claim validity to, and secondly, who was or what was the competence of the quotation's author.
+Note that similar problems are less likely in encyclopedia-based datasets like \FEVER\cite{fever2018}.
+
+
+The contributions of this paper are as follows:
+\begin{comment}
+  TODO:
+  In contribution (3.), I think the inter-annotator agreement should not really
+be counted as  detailed analysis of the CTKFacts dataset, as it is, and should
+be, an inherent and mandatory part of contribution (2.) CTKFacts.
+\end{comment}
+\begin{enumerate}
+    \item \textbf{\FCZ:} We propose an experimental Czech localization of the large-scale \FEVER~\cite{fever2018} fact-checking dataset, utilizing the public \MediaWiki interlingual document alignment of \Wikipedia articles and a MT-based claim transduction.
+    We publish our procedure to be used for other languages, and analyze its pitfalls.
+    We denote the original English \FEVER as \FEN in the following sections to distinguish various language mutations.
+    \item \textbf{CTKFacts:} we introduce a new Czech fact-checking dataset manually annotated on top of approximately two million Czech News Agency\footnote{\url{https://www.ctk.eu/}} news reports from 2000--2020.
+    Inspired by \FEVER, we provide an updated and extended annotation methodology aimed at annotations of news corpora, and we also make available an open-source annotation platform.
+    The \textit{claim generation} as well as \textit{claim labeling} is centered around limited  knowledge context (denoted \textit{dictionary} in~\cite{fever2018}), which is trivial to construct for hyperlinked textual corpora such as \Wikipedia.
+    We present a novel approach based on document retrieval and clustering.
+    The method automatically generates dictionaries, which are composed of both relevant and semantically diverse documents, and does not depend on any inter-document linking.
+    \item We provide a detailed analysis of the \CTK dataset, including the \textit{inter-annotator agreement}, and \textit{spurious cue analysis}, where the latter detects annotation patterns possibly leading to overfitting of the NLP models.
+    For comparison, we analyze the spurious cues of \FCZ as well.
+    We construct an annotation cleaning scheme that involves both manual and semi-automated procedures, and we use it to refine the final version of the \CTK dataset.
+    We also provide classification and discussion of common annotation errors for future improvements of the annotation methodology.
+    \item We present baseline models for both DR and NLI stages as well as for the full fact-checking pipeline.
+    \item We publicly release the \CTK dataset as well as the experimental \FCZ data, used source code and the baseline models\footnote{\url{https://github.com/aic-factcheck/csfever-and-ctkfacts-paper}. Note, that only the NLI part of the \CTK  (denoted \CTKNLI) is made public due to licensing. Data, tools, and models are available under the \textsf{CC BY-SA 3.0} license.}.
+\end{enumerate}
+
+This article is structured as follows: in Section~\ref{sec:related_work}, we give an overview of the related work.
+Section~\ref{sec:fevercs} describes our experimental method to localize the \FEN dataset using the \MediaWiki alignment.
+We generate the Czech language \FCZ dataset with it and analyze its validity.
+In~Section~\ref{sec:ctkfacts}, we introduce the novel \CTK dataset.
+We describe its annotation methodology, data cleaning, and postprocessing, as well as analysis of the inter-annotator agreement.
+Section~\ref{sec:analysis} analyzes spurious cues for both \FCZ and \CTK.
+In Section~\ref{sec:baseline}, we present the baseline models.
+Section~\ref{sec:conclusion} concludes with an overall discussion of the results and with remarks for future research.
+
+% \begin{figure}[H]
+% \begin{lstlisting}[language=json]
+% {
+%   "id": 36242,
+%   "verifiable": "VERIFIABLE",
+%   "label": "REFUTES",
+%   "claim": "Mud was made before Matthew McConaughey was born.",
+%   "evidence": [
+%     [
+%       [52443, 62408, "Mud_-LRB-2012_film-RRB-", 1],
+%       [52443, 62408, "Matthew_McConaughey", 0]
+%     ],
+%     [
+%       [52443, 62409, "Mud_-LRB-2012_film-RRB-", 0]
+%     ]
+%   ]
+% }
+% \end{lstlisting}
+%     \caption{Example \FEN \texttt{REFUTES} annotation with two possible evidence sets. \todo{Take example from \FCZ.}}
+%     \label{list:fever}
+% \end{figure}

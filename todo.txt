@@ -1,0 +1,30 @@
+TODO Honza
+  - pridat odkaz na Czert? (je uz v bib) - az v dalsi revizi (dopocitame)
+
+TODO Herbert
+  - 3.1 bod 2 - nemame nadefinovane "evidence sets", asi to nevadi
+  - 3.1 bod 3 - kdy nastane?
+  - 3.2.1 "To avoid confusion, we omit it from this paper and only experiment with the \FCZ as generated in this chapter." - ale NLI modely jsou uceny prave na CTKFactsNLI, ne?
+  - 4.5.1 - "may be inspected online" dal bych jen odkaz na zdrojaky. Tady uz byt nemusi, staci uvodni odkaz na github, kde by mel byt seznam linku.
+  - 4.5.3 - "Median yield, however, was 1 evidence..." - ma to tedy cenu zminovat?
+  - 4.6.2 - "After separating out 14\% (835) erroneously..." - chapu to dobre, ze jsme nejdrive odstranili 835 tvrzeni, nebo jejich anotaci? Tohle by chtelo trochu preformulovat.
+  - 4.6.3 - neni tu znovu zminen "dev" set, predpokladam, ze byl pouzit v bodu 3 pro selekci modelu
+
+Dotazy na Martina
+  - otazka na Martina DR: proc MBERT nefunguje na CTK? vysvetleni mam, ale proc to nepostihlo ColBERT? - ne predtrenovani, relativne malo, mbert generuje nadpisy, redundance na CsFEVER
+
+Publikovat
+  - datasety - CsFEVER, CTKFacts-NLI
+  - modely DR: CsFEVER - M-BERT, Colbert128 -indexy
+               CTKFacts - nic, jen kod
+  - modely NLI: CsFEVER -  M-BERT,
+                CTKFacts - XLM@XNLI 
+  - kod:
+    - CSFever localization scheme 
+    - anotacni platforma
+    - claim generator
+    - uceni DR a generovani indexu
+    - uceni NLI
+    - splits
+    - Krippendorf: https://gitlab.fel.cvut.cz/factchecking/ctk-dataset/-/blob/master/notebooks/agreement.ipynb
+    - notebooky s evaluaci

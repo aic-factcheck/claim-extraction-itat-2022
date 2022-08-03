@@ -1,0 +1,33 @@
+%!TEX ROOT=../itat2022.tex
+
+\section{Licensing}
+\hu{Note this section is probably temporary and its contents will be distributed into appropriate previous sections once resolved. \todo{Remove}}
+
+\hu{\url{https://ufal.mff.cuni.cz/~popel/npfl070/slides/authors_rights_intro.pdf} -- Good and easily digestible reading on the topics -- generally we want to use CC BY (\q{Attribution} -- citation required) + SA (\q{Share alike})}
+
+\subsection{Licenses of used data}
+Necessary to keep an eye on -- may be restrictive, so we may need to contact authors for an extra permission:
+
+\begin{enumerate}
+    \item DeepL translation -- we care about the \q{\textbf{processed content}} terms entity -- it mostly looks like free use as long as we give a DeepL company name and link, see: \url{https://www.deepl.com/pro-license/}
+
+    \textit{All rights regarding the Content, Processed Content and/or Customer Training Data remain with Customer. However, Customer grants DeepL the non-exclusive worldwide right to use the Content and/or Customer Training Data solely in order to provide DeepL’s services to Customer. In particular, Customer grants to DeepL the right to temporarily store, modify, process, translate and transmit the Content and/or Customer Training Data, and to sublicense the foregoing rights to its subcontractors, to the extent required to provide the services set out in this Agreement}
+    \item CTK dataset -- proprietary, need to discuss permission
+    \begin{itemize}
+        \item $\rightarrow$ for \CTKNLI, Herbert proposes some version of CC-BY-SA
+        \item $\rightarrow$ maybe we could make a SQLite DR sandbox out of the permitted CTK articles? not for full reproducibility, just technical/debug convenience (sth like \texttt{ctk\_filtered10000.db}) 
+    \end{itemize}
+    \item \FEN{} -- CC-BY-SA 3.0 -- \url{https://s3-eu-west-1.amazonaws.com/fever.public/license.html}
+    \begin{itemize}
+        \item $\rightarrow$ \FCZ must be CC-BY-SA 3.0 
+    \end{itemize}
+    \item \FEVERNLI{} -- MIT License -- but must cite~\cite{nie2019combining} \url{https://github.com/easonnie/combine-FEVER-NSMN/blob/master/other_resources/nli_fever.md}
+    \begin{itemize}
+        \item $\rightarrow$ we can freely publish \FCZ-NLI under CC-BY-SA as long as we cite
+    \end{itemize}
+    \item NLI datasets: 
+    \begin{itemize}
+        \item SNLI CC-BY (\url{https://huggingface.co/datasets/snli}) $\rightarrow$ only attribution required
+        \item ANLI CC-BY-NC (\url{https://github.com/facebookresearch/anli/blob/main/LICENSE}) $\rightarrow$ attribution and non-profit flag required
+    \end{itemize}
+\end{enumerate}

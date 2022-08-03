@@ -1,0 +1,14 @@
+*.aux
+*.log
+/*.pdf
+*.synctex.gz
+*.bbl
+*.blg
+*.out
+*.fls
+*.fdb_latexmk
+/support/THESES/
+/.history/
+.idea
+out
+/notebooks/

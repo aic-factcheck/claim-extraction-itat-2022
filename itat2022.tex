@@ -1,0 +1,259 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                                 %%
+%% Please do not use \input{...} to include other tex files.       %%
+%% Submit your LaTeX manuscript as one .tex document.              %%
+%%                                                                 %%
+%% All additional figures and files should be attached             %%
+%% separately and not embedded in the \TeX\ document itself.       %%
+%%                                                                 %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%\documentclass[referee,sn-basic]{sn-jnl}% referee option is meant for double line spacing
+
+%%=======================================================%%
+%% to print line numbers in the margin use lineno option %%
+%%=======================================================%%
+
+%%\documentclass[lineno,sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+
+%%======================================================%%
+%% to compile with pdflatex/xelatex use pdflatex option %%
+%%======================================================%%
+
+%%\documentclass[pdflatex,sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+
+%%\documentclass[sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+\documentclass[sn-mathphys]{sn-jnl}% Math and Physical Sciences Reference Style
+%%\documentclass[sn-aps]{sn-jnl}% American Physical Society (APS) Reference Style
+%%\documentclass[sn-vancouver]{sn-jnl}% Vancouver Reference Style
+%%\documentclass[sn-apa]{sn-jnl}% APA Reference Style
+%%\documentclass[sn-chicago]{sn-jnl}% Chicago-based Humanities Reference Style
+%%\documentclass[sn-standardnature]{sn-jnl}% Standard Nature Portfolio Reference Style
+%%\documentclass[default]{sn-jnl}% Default
+%%\documentclass[default,iicol]{sn-jnl}% Default with double column layout
+
+%%%% Standard Packages
+%%<additional latex packages if required can be included here>
+%%%%
+
+%%%%%=============================================================================%%%%
+%%%%  Remarks: This template is provided to aid authors with the preparation
+%%%%  of original research articles intended for submission to journals published 
+%%%%  by Springer Nature. The guidance has been prepared in partnership with 
+%%%%  production teams to conform to Springer Nature technical requirements. 
+%%%%  Editorial and presentation requirements differ among journal portfolios and 
+%%%%  research disciplines. You may find sections in this template are irrelevant 
+%%%%  to your work and are empowered to omit any such section if allowed by the 
+%%%%  journal you intend to submit to. The submission guidelines and policies 
+%%%%  of the journal take precedence. A detailed User Manual is available in the 
+%%%%  template package for technical guidance.
+%%%%%=============================================================================%%%%
+
+\jyear{2021}%
+
+%% as per the requirement new theorem styles can be included as shown below
+\theoremstyle{thmstyleone}%
+\newtheorem{theorem}{Theorem}%  meant for continuous numbers
+%%\newtheorem{theorem}{Theorem}[section]% meant for sectionwise numbers
+%% optional argument [theorem] produces theorem numbering sequence instead of independent numbers for Proposition
+\newtheorem{proposition}[theorem]{Proposition}% 
+%%\newtheorem{proposition}{Proposition}% to get separate numbers for theorem and proposition etc.
+
+\theoremstyle{thmstyletwo}%
+\newtheorem{example}{Example}%
+\newtheorem{remark}{Remark}%
+
+\theoremstyle{thmstylethree}%
+\newtheorem{definition}{Definition}%
+
+\raggedbottom
+%%\unnumbered% uncomment this for unnumbered level heads
+
+\graphicspath{{fig/}}
+
+\usepackage[utf8]{inputenc}
+\usepackage{comment}
+\usepackage{commath} % for \abs{}
+\usepackage{csquotes}
+\usepackage{hhline}
+\usepackage{tablefootnote}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{xspace}
+
+\newcommand{\FEVER}{\textsc{FEVER}\xspace}
+\newcommand{\FEVERNLI}{\textsc{FEVER-NLI}\xspace}
+\newcommand{\Wikipedia}{\textsc{Wikipedia}\xspace}
+\newcommand{\MediaWiki}{\textsc{MediaWiki}\xspace}
+\newcommand{\FCZ}{\textsc{CsFEVER}\xspace}
+\newcommand{\FCZNLI}{\textsc{CsFEVER-NLI}\xspace}
+\newcommand{\FEN}{\textsc{EnFEVER}\xspace}
+\newcommand{\FDAN}{\textsc{DanFEVER}\xspace}
+\newcommand{\CTK}{\textsc{CTKFacts}\xspace}
+\newcommand{\CTKNLI}{\textsc{CTKFactsNLI}\xspace}
+\newcommand{\Anserini}{\textsc{Anserini}\xspace}
+\newcommand{\DrQA}{\textsc{DrQA}\xspace}
+\newcommand{\BERT}{\textsc{Bert}\xspace}
+\newcommand{\RoBERTa}{\textsc{RoBERTa}\xspace}
+\newcommand{\MBERT}{\textsc{M-Bert}\xspace}
+\newcommand{\SMBERT}{\textsc{Sentence M-Bert}\xspace}
+\newcommand{\ColBERT}{\textsc{ColBert}\xspace}
+\newcommand{\SlavicBERT}{\textsc{SlavicBERT}\xspace}
+\newcommand{\CZERT}{\textsc{Czert}\xspace}
+\newcommand{\RobeCzech}{\textsc{RobeCzech}\xspace}
+\newcommand{\XLM}{\textsc{XLM-RoBERTa}\xspace}
+\newcommand{\FERNETC}{\textsc{FERNET-C5}\xspace}
+\newcommand{\FERNETN}{\textsc{FERNET-News}\xspace}
+\newcommand{\XLMSQUAD}{\textsc{XLM-RoBERTa @ SQuAD2}\xspace}
+\newcommand{\XLMXNLI}{\textsc{XLM-RoBERTa @ XNLI}\xspace}
+
+\newcommand{\train}{\textsf{train}\xspace}
+\newcommand{\dev}{\textsf{dev}\xspace}
+\newcommand{\test}{\textsf{test}\xspace}
+
+\newcommand{\SUP}{\texttt{SUPPORTS}}
+\newcommand{\REF}{\texttt{REFUTES}}
+\newcommand{\NEI}{\texttt{NEI}}
+
+
+\newcommand{\Tzero}{{$\textsf{T}_{\textsf{0}}$}}
+\newcommand{\Tone}{{$\textsf{T}_{\textsf{1}}$}}
+\newcommand{\ToneA}{{$\textsf{T}_{\textsf{1a}}$}}
+\newcommand{\ToneB}{{$\textsf{T}_{\textsf{1b}}$}}
+\newcommand{\Ttwo}{{$\textsf{T}_{\textsf{2}}$}}
+\newcommand{\TtwoA}{{$\textsf{T}_{\textsf{2a}}$}}
+\newcommand{\TtwoB}{{$\textsf{T}_{\textsf{2b}}$}}
+
+\newcommand{\q}[1]{``#1''}
+\newcommand{\qit}[1]{\textit{``#1''}}
+\newcommand{\revise}[1]{{\color{blue}#1}}
+\newcommand{\rewrite}[1]{{\color{red}#1}}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\revision}[1]{{\color{purple}#1}}
+\newcommand{\jd}[1]{{\color{orange}\textbf{jd: }#1}}
+\newcommand{\hu}[1]{{\color{blue}\textbf{hu: }#1}}
+\newcommand{\mr}[1]{{\color{green}\textbf{mr: }#1}}
+\newcommand{\todo}[1]{{\color{red}\colorbox{yellow}{\textbf{TODO: }}#1}}
+
+\definecolor{delim}{RGB}{20,105,176}
+\colorlet{punct}{red!60!black}
+\colorlet{numb}{magenta!60!black}
+
+\lstset{
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  frame=single,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+}
+
+\lstdefinelanguage{json}{
+    basicstyle=\normalfont\ttfamily,
+    numbers=left,
+    numberstyle=\scriptsize,
+    stepnumber=1,
+    numbersep=8pt,
+    showstringspaces=false,
+    breaklines=true,
+    frame=lines,
+    backgroundcolor=\color{white},
+    literate=
+     *{0}{{{\color{numb}0}}}{1}
+      {1}{{{\color{numb}1}}}{1}
+      {2}{{{\color{numb}2}}}{1}
+      {3}{{{\color{numb}3}}}{1}
+      {4}{{{\color{numb}4}}}{1}
+      {5}{{{\color{numb}5}}}{1}
+      {6}{{{\color{numb}6}}}{1}
+      {7}{{{\color{numb}7}}}{1}
+      {8}{{{\color{numb}8}}}{1}
+      {9}{{{\color{numb}9}}}{1}
+      {:}{{{\color{punct}{:}}}}{1}
+      {,}{{{\color{punct}{,}}}}{1}
+      {\{}{{{\color{delim}{\{}}}}{1}
+      {\}}{{{\color{delim}{\}}}}}{1}
+      {[}{{{\color{delim}{[}}}}{1}
+      {]}{{{\color{delim}{]}}}}{1},
+}
+
+% Define where - description of equation
+\usepackage{enumitem}
+\SetLabelAlign{myright}{\hss\llap{$#1$}}
+\newlist{where}{description}{1}
+\setlist[where]{labelwidth=2cm, labelsep=1em, leftmargin=!, align=myright, font=\normalfont}
+
+\begin{document}
+
+% \title[\CTK: fact-checking dataset based on Czech news corpus]{\CTK: fact-checking dataset based on Czech news corpus}
+
+
+\newcommand{\papertitle}{Extracting factual claims in Czech}
+\title[\papertitle]{\revision{\papertitle}}
+
+%%=============================================================%%
+%% Prefix	-> \pfx{Dr}
+%% GivenName	-> \fnm{Joergen W.}
+%% Particle	-> \spfx{van der} -> surname prefix
+%% FamilyName	-> \sur{Ploeg}
+%% Suffix	-> \sfx{IV}
+%% NatureName	-> \tanm{Poet Laureate} -> Title after name
+%% Degrees	-> \dgr{MSc, PhD}
+%% \author*[1,2]{\pfx{Dr} \fnm{Joergen W.} \spfx{van der} \sur{Ploeg} \sfx{IV} \tanm{Poet Laureate} 
+%%                 \dgr{MSc, PhD}}\email{iauthor@gmail.com}
+%%=============================================================%%
+
+\author*[1]{\revision{\fnm{Herbert} \sur{Ullrich}}}\email{ullriher@fel.cvut.cz}
+\equalcont{These authors contributed equally to this work.}
+
+\author*[1]{\revision{\fnm{Jan} \sur{Drchal}}}\email{drchajan@fel.cvut.cz}
+\equalcont{These authors contributed equally to this work.}
+
+
+\affil*[1]{\orgdiv{Artificial Intelligence Center}, \orgname{Faculty of Electrical Engineering, Czech Technical University in Prague}, \orgaddress{\street{Charles Square 13}, \city{Prague~2}, \postcode{120 00}, \country{Czech Republic}}}
+
+%%==================================%%
+%% sample for unstructured abstract %%
+%%==================================%%
+\abstract{
+
+\todo{Rewrite from scratch}
+
+\revision{Datasets are available at \url{https://huggingface.co/datasets/ctu-aic/ctkfacts_nli} and \url{https://huggingface.co/datasets/ctu-aic/ctkfacts_nli}.}
+}
+
+% max 6 Keywords
+\keywords{Automated Fact-Checking, Czech, Document Retrieval, Natural Language Inference, FEVER}
+
+%%\pacs[JEL Classification]{D8, H51}
+
+%%\pacs[MSC Classification]{35A01, 65L10, 65L12, 65L20, 65L70}
+
+\maketitle
+
+\input{src/intro}
+\input{src/related_work}
+\input{src/discussion}
+\input{src/conclusion}
+
+\backmatter
+
+% \bmhead{Supplementary information}
+
+% If your article has accompanying supplementary file/s please state so here. 
+
+%\bmhead{Acknowledgments}
+
+%%===========================================================================================%%
+%% If you are submitting to one of the Nature Portfolio journals, using the eJP submission   %%
+%% system, please include the references within the manuscript file itself. You may do this  %%
+%% by copying the reference list from your .bbl file, paste it into the main manuscript .tex %%
+%% file, and delete the associated \verb+\bibliography+ commands.                            %%
+%%===========================================================================================%%
+
+\bibliography{itat2022}
+\pagebreak
+
+\begin{appendices}
+\end{appendices}
+
+\end{document}

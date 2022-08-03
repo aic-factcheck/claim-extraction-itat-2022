@@ -1,0 +1,22 @@
+{
+    "grammarly.overrides": [
+        {
+            "files": [
+                "**/lrec2022/src/fevercs.tex"
+            ],
+            "config": {
+                "audience": "knowledgeable",
+                "dialect": "american",
+                "domain": "academic",
+                "emotions": [
+                    "confident",
+                    "analytical"
+                ],
+                "goals": [
+                    "inform",
+                    "describe"
+                ]
+            }
+        }
+    ]
+}
